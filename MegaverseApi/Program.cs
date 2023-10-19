@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using MegaverseApi.Data;
+using MegaverseApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,12 +16,19 @@ app.UseSwagger();
 app.UseSwaggerUI();
 
 
-app.MapGet("/weatherforecast", () =>
+var poly = new Polyanet {
+    Column = DateTime.Now.Year - 100,
+    Row = DateTime.Now.Year - 99,
+};
+
+app.MapGet("api/polyanets", async(AppDbContext context) =>
 {
-    var forecast = new[] { "hello", "world" };
-    return forecast;
+    context.Polyanets.Add(poly);
+    await context.SaveChangesAsync();
+    var polys = await context.Polyanets.ToListAsync();
+    return Results.Ok(polys);
 })
-.WithName("GetWeatherForecast")
+.WithName("GetPolyanets")
 .WithOpenApi();
 
 app.Run();
