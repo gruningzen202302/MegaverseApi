@@ -15,21 +15,40 @@ var app = builder.Build();
 app.UseSwagger();
 app.UseSwaggerUI();
 
-
-var poly = new Polyanet {
-    Column = DateTime.Now.Year - 100,
-    Row = DateTime.Now.Year - 99,
-};
-
 app.MapGet("api/polyanets", async(AppDbContext context) =>
 {
-    context.Polyanets.Add(poly);
-    await context.SaveChangesAsync();
     var polys = await context.Polyanets.ToListAsync();
     return Results.Ok(polys);
 })
 .WithName("GetPolyanets")
 .WithOpenApi();
+
+app.MapPost("api/polyanets", async (AppDbContext context, Polyanet polyanet) =>
+{
+    await context.Polyanets.AddAsync(polyanet);
+    await context.SaveChangesAsync();
+    return Results.Created($"api/polyanets/{polyanet.Id}", polyanet);
+})
+.WithName("PostPolyanets")
+.WithOpenApi();
+
+app.MapDelete("api/polyanets/{id}", async (int id, AppDbContext context) =>
+{
+    var existingPolyanet = await context.Polyanets.FindAsync(id);
+
+    if (existingPolyanet == null)
+    {
+        return Results.NotFound();
+    }
+
+    context.Polyanets.Remove(existingPolyanet);
+    await context.SaveChangesAsync();
+
+    return Results.Ok(existingPolyanet);
+})
+.WithName("DeletePolyanets")
+.WithOpenApi();
+
 
 app.Run();
 
