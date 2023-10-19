@@ -8,7 +8,6 @@ namespace MegaverseApi.Data
         public AppDbContext(DbContextOptions<AppDbContext> options): base(options)
         {
         }
-        public DbSet<Candidate> Candidates { get; set; }
         public DbSet<Polyanet> Polyanets { get; set; }
         public DbSet<Soloon> Soloons { get; set; }
         public DbSet<Cometh> Comeths { get; set; }

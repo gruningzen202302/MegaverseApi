@@ -2,6 +2,6 @@
 {
     public interface ICandidate
     {
-        string Id { get; set; } 
+        string CandidateId { get; }
     }
 }
