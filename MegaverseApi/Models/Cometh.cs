@@ -1,14 +1,15 @@
 ﻿namespace MegaverseApi.Models
 {
-
-    public class Polyanets: CoordinatesBase, ICandidate
+    public class Cometh : CoordinatesBase, ICandidate
     {
         private Candidate _candidate;
-        public Polyanets()
+        public Cometh()
         {
             _candidate = new Candidate();
             Id = _candidate.Id;
         }   
         public string Id { get; set; }
+        public string? Direction { get; set; }
     }
 }
+
