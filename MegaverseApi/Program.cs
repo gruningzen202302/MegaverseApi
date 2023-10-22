@@ -3,7 +3,19 @@ using MegaverseApi.Data;
 using MegaverseApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
-
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowReactNative", builder =>
+    {
+        builder
+            .WithOrigins("http://localhost:8081", "http://192.168.1.24:8081")
+            //.WithOrigins("http://192.168.1.24:8081")
+            //.WithOrigins("http://localhost:8081")
+            //.AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+    });
+});
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -11,7 +23,10 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 
 builder.Services.AddDbContext<AppDbContext>(opt => opt.UseSqlite(connectionString));
 
+
+
 var app = builder.Build();
+app.UseCors("AllowReactNative");
 app.UseSwagger();
 app.UseSwaggerUI();
 

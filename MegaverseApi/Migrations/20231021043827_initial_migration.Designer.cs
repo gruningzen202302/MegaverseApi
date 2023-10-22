@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MegaverseApi.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231019051257_initial_migration")]
+    [Migration("20231021043827_initial_migration")]
     partial class initial_migration
     {
         /// <inheritdoc />
